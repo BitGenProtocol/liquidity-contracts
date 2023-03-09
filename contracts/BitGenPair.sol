@@ -1,27 +1,24 @@
-// File: contracts/interfaces/IBitGenPair.sol
+// SPDX-License-Identifier: UNLICENSED
 
+// File: contracts/interfaces/IBitGenPair.sol
 pragma solidity ^0.8.0;
 
 interface IBitGenPair {
-    event Approval(address indexed owner, address indexed spender, uint value);
-    event Transfer(address indexed from, address indexed to, uint value);
 
-    function name() external pure returns (string memory);
-    function symbol() external pure returns (string memory);
-    function decimals() external pure returns (uint8);
-    function totalSupply() external view returns (uint);
-    function balanceOf(address owner) external view returns (uint);
-    function allowance(address owner, address spender) external view returns (uint);
+    // function name() external pure returns (string memory);
+    // function symbol() external pure returns (string memory);
+    // function decimals() external pure returns (uint8);
+    // function totalSupply() external view returns (uint);
+    // function balanceOf(address owner) external view returns (uint);
+    // function allowance(address owner, address spender) external view returns (uint);
 
-    function approve(address spender, uint value) external returns (bool);
-    function transfer(address to, uint value) external returns (bool);
-    function transferFrom(address from, address to, uint value) external returns (bool);
+    // function approve(address spender, uint value) external returns (bool);
+    // function transfer(address to, uint value) external returns (bool);
+    // function transferFrom(address from, address to, uint value) external returns (bool);
 
-    function DOMAIN_SEPARATOR() external view returns (bytes32);
-    function PERMIT_TYPEHASH() external pure returns (bytes32);
-    function nonces(address owner) external view returns (uint);
+    // function nonces(address owner) external view returns (uint);
 
-    function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external;
+    // function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external;
 
     event Mint(address indexed sender, uint amount0, uint amount1);
     event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);
@@ -72,7 +69,6 @@ interface IBitGenERC20 {
     function transfer(address to, uint value) external returns (bool);
     function transferFrom(address from, address to, uint value) external returns (bool);
 
-    function DOMAIN_SEPARATOR() external view returns (bytes32);
     function PERMIT_TYPEHASH() external pure returns (bytes32);
     function nonces(address owner) external view returns (uint);
 
@@ -116,9 +112,6 @@ contract BitGenERC20 is IBitGenERC20 {
     // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
     bytes32 public constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
     mapping(address => uint) public nonces;
-
-    event Approval(address indexed owner, address indexed spender, uint value);
-    event Transfer(address indexed from, address indexed to, uint value);
 
     constructor() public {
         uint chainId;
@@ -170,7 +163,7 @@ contract BitGenERC20 is IBitGenERC20 {
     }
 
     function transferFrom(address from, address to, uint value) external returns (bool) {
-        if (allowance[from][msg.sender] != uint(-1)) {
+        if (allowance[from][msg.sender] != ~uint(0)) {
             allowance[from][msg.sender] = allowance[from][msg.sender].sub(value);
         }
         _transfer(from, to, value);
